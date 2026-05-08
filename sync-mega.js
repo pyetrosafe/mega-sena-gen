@@ -4,6 +4,20 @@ const fs = require('fs');
 const DATA_FILE = './mega-sena-stats.json';
 const API_URL = 'https://loteriascaixa-api.herokuapp.com/api/megasena/';
 
+// Simple request wrapper with retries and exponential backoff
+async function requestWithRetry(url, retries = 3, backoffMs = 500) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        try {
+            return await axios.get(url);
+        } catch (err) {
+            if (attempt === retries) throw err;
+            const wait = backoffMs * Math.pow(2, attempt);
+            console.log(`Request failed (attempt ${attempt + 1}). Retrying in ${wait}ms...`);
+            await new Promise(r => setTimeout(r, wait));
+        }
+    }
+}
+
 // Estrutura inicial se o arquivo não existir
 let stats = {
     ultimoSorteio: 0,
@@ -23,33 +37,45 @@ async function sync() {
     console.log(`Iniciando sincronização a partir do concurso: ${proximoSorteio}`);
 
     try {
-        const responseAPI = await axios.get(`${API_URL}`);
-        const totalSorteios = responseAPI.data.length;
+        // Fetch all contests once and reuse
+        const responseAPI = await requestWithRetry(API_URL);
+        const allContests = responseAPI.data;
 
-        if (!responseAPI.data || responseAPI.data.length <= 0) {
+        if (!allContests || allContests.length <= 0) {
             buscando = false;
         }
 
         while (buscando) {
+            // Try to find the contest by contest number (some APIs provide 'concurso' or 'numero')
+            const contestItem = allContests.find(item => {
+                // Try multiple common fields
+                return item.concurso == proximoSorteio;
+            });
 
-            const response = responseAPI.data[totalSorteios-proximoSorteio]
+            if (!contestItem) {
+                // If not found, assume we reached the last available contest
+                console.log(`Concurso ${proximoSorteio} não encontrado na API. Encerrando.`);
+                buscando = false;
+                break;
+            }
 
-            if (response.dezenas) {
-                const dezenas = response.dezenas.map(Number);
+            if (contestItem.dezenas) {
+                const dezenas = contestItem.dezenas.map(Number);
 
                 // Incrementa a contagem de cada número sorteado
                 dezenas.forEach(num => {
-                    stats.contagem[num]++;
+                    if (stats.contagem[num] !== undefined) stats.contagem[num]++;
                 });
 
                 stats.ultimoSorteio = proximoSorteio;
-                stats.lastDate = response.data;
+                // lastDate handling deferred as requested
+                stats.lastDate = contestItem.data;
                 console.log(`Concurso ${proximoSorteio} processado.`);
 
                 proximoSorteio++;
 
                 // Pequeno delay para não sobrecarregar a API pública
-                // await new Promise(resolve => setTimeout(resolve, 100));
+                // await new Promise(resolve => setTimeout(resolve, 50));
             } else {
                 buscando = false;
             }

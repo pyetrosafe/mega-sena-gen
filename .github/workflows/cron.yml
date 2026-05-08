@@ -1,4 +1,6 @@
 name: Update Mega Sena Stats
+permissions:
+  contents: write
 on:
   schedule:
     # Quartas, Sextas e Domingos às 04:00 UTC (01:00 Horário de Brasília)
@@ -18,7 +20,7 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install axios
+        run: npm ci --silent
 
       - name: Run sync script
         run: node sync-mega.js
