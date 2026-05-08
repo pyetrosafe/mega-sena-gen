@@ -1,0 +1,16 @@
+{
+  "name": "mega-sena-gen",
+  "version": "0.1.0",
+  "description": "Gerador de combinações para Mega Sena com sincronização de estatísticas",
+  "main": "sync-mega.js",
+  "scripts": {
+    "sync": "node sync-mega.js",
+    "start": "npx serve . -l 5000",
+    "test": "echo \"No tests configured\" && exit 0"
+  },
+  "author": "Pyetro S. F. da Costa",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.16.0"
+  }
+}

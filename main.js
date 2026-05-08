@@ -5,7 +5,44 @@ function getRandomInt(min, max) {
 }
 
 // Lista com números mais sorteados em ordem decrescente. Lista de 09/12/2023
-const listSortAscend = [10, 53, 5, 37, 23, 34, 33, 32, 30, 41, 35, 44, 38, 42, 4, 17, 28, 56, 43, 27, 29, 11, 54, 49, 36, 16, 13, 51, 8, 2, 6, 24, 46, 52, 58, 59, 50, 25, 14, 45, 18, 20, 39, 12, 60, 1, 57, 9, 47, 19, 40, 7, 31, 3, 48, 22, 15, 55, 26, 21];
+let listSortAscend = [10, 53, 5, 37, 23, 34, 33, 32, 30, 41, 35, 44, 38, 42, 4, 17, 28, 56, 43, 27, 29, 11, 54, 49, 36, 16, 13, 51, 8, 2, 6, 24, 46, 52, 58, 59, 50, 25, 14, 45, 18, 20, 39, 12, 60, 1, 57, 9, 47, 19, 40, 7, 31, 3, 48, 22, 15, 55, 26, 21];
+
+// Lista com números mais sorteados em ordem decrescente
+async function carregarDados() {
+  try {
+    const response = await fetch('./mega-sena-stats.json');
+    const data = await response.json();
+
+    if (!data.contagem) return;
+
+    // Reseta e Alimenta a variável global
+    listSortAscend = [];
+    listSortAscend = Object.entries(data.contagem)
+      .sort((a, b) => b[1] - a[1])
+      .map(entry => [parseInt(entry[0]), entry[1]]);
+
+    console.log("Dados carregados e salvos globalmente!");
+
+    const listaElement = document.querySelector('.list-group.list-group-numbered');
+    listaElement.innerHTML = ''; // Limpa a lista atual
+
+    listSortAscend.forEach(num => {
+      const li = `<li class="list-group-item col-12 col-sm-6"><b>${String(num[0]).padStart(2, '0')} </b> &emsp; saiu <b>${num[1]}</b> vezes</li>`;
+      listaElement.innerHTML += li;
+    });
+
+    // Transforma o listSortAscend em uma lista apenas com os números, em ordem crescente
+    listSortAscend = listSortAscend.map(num => num[0]);
+
+    document.getElementById('dados-sorteio').innerHTML = `Números mais sorteados até ${data.lastDate}`;
+
+  } catch (error) {
+    console.error('Erro ao carregar JSON:', error);
+  }
+}
+
+// Inicia o processo
+carregarDados();
 
 // Total de combinações possíveis
 const totalTestes = 50_063_860 * 10; //50_063_860;
