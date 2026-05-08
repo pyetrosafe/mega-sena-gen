@@ -1,0 +1,108 @@
+.result-item {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.list-group-item {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.list-group-numbered {
+  counter-reset: item;
+  list-style-type: decimal-leading-zero;
+}
+
+.list-group-numbered .list-group-item::before {
+  counter-increment: item;
+  content: counter(item)'º ) ';
+  font-size: 0.75rem;
+  float: left;
+}
+
+.list-group-numbered .list-group-item:nth-child(-n+9)::before {
+  content: '0' counter(item)'º ) ';
+}
+
+.spinner-custom {
+  animation: 0.75s linear infinite spinner-custom;
+  --size: 1.5em;
+  width: var(--size);
+  height: calc(var(--size) * 1.05);
+  display: inline-block;
+}
+
+@keyframes spinner-custom {
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+.progress {
+  position: relative;
+  /* height: 30px; */
+}
+
+.progress-bar-text {
+  position: absolute;
+  display: block;
+  text-align: center;
+  width: 100%;
+  text-shadow: 1px 1px 2px white;
+}
+
+.progress-bar-text.text-white {
+  text-shadow: 1px 1px 2px black;
+}
+
+.spinner-arrow {
+  /* Único valor que você altera para redimensionar tudo */
+  --size: 1em;
+  /* Define o limite mínimo aqui */
+  --min-thickness: 0.5px;
+
+  /* Variáveis automáticas baseadas no tamanho */
+  --thickness: max(var(--min-thickness), calc(var(--size) / 10));
+  --arrow-size: calc(var(--size) / 4);
+
+  --color: #ffffff;
+
+  width: var(--size);
+  height: var(--size);
+  border: var(--thickness) solid var(--color);
+  border-radius: 50%;
+  border-top-color: transparent;
+  position: relative;
+  transform: rotate(0deg);
+  animation: 0.75s linear infinite spinner-arrow;
+}
+
+.spinner-arrow::after {
+  content: "";
+  position: absolute;
+
+  /* Ajustes dinâmicos de posição baseados na espessura */
+  top: calc(var(--size) * -0.24);
+  left: calc(var(--size) * 0.04);
+
+  border-top: var(--arrow-size) solid transparent;
+  border-bottom: var(--arrow-size) solid transparent;
+  border-left: var(--arrow-size) solid var(--color);
+  transform: rotate(-45deg);
+}
+
+i.spinner-arrow,
+span.spinner-arrow {
+  display: inline-block;
+}
+
+@keyframes spinner-arrow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sorteios</title>
+    <!-- Inclua os links para os estilos do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- Se preferir, você pode baixar os arquivos do Bootstrap e referenciá-los localmente -->
+    <link href="style.css" rel="stylesheet">
+  </head>
+
+  <body class="d-flex align-items-center justify-content-center">
+
+    <div class="container text-center">
+      <h1 class="mt-4">Gerador de números aleatórios<br/>para Sorteio da Mega Sena</h1>
+
+      <!-- Tabs navs -->
+      <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a data-bs-toggle="tab" class="nav-link active" id="li-tab-1" href="#tabs-1" role="tab" aria-controls="tabs-1" aria-selected="true" >Gerar Números</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a data-bs-toggle="tab" class="nav-link" id="li-tab-2" href="#tabs-2" role="tab" aria-controls="tabs-2" aria-selected="false" >Testar Gerador</a>
+        </li>
+      </ul>
+
+      <!-- Tabs content -->
+      <div class="tab-content" id="tab-content">
+        <div class="tab-pane active" id="tabs-1" role="tabpanel" aria-labelledby="li-tab-1">
+
+          <div class="row justify-content-center mt-5">
+            <p class="col-12 col-sm-8 mb-3 bg-light rounded-3 p-4" style="text-align: justify;">Este gerador de números para a Mega Sena tem como objetivo criar combinações de números aleatórios, com a possibilidade de incluir uma quantidade definida de números mais sorteados e números medianos mais sorteados, com base em um ranking atualizado até 09/12/2023. O usuário pode configurar a quantidade de jogos a serem gerados, a quantidade de números por jogo, a quantidade e o índice máximo dos números mais sorteados e dos números medianos mais sorteados. O resultado é exibido em uma lista, mostrando os jogos gerados.</p>
+          </div>
+
+          <div class="row justify-content-center mt-3">
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo1" class="form-label">Quantidade de jogos:</label>
+              <input type="number" class="form-control" id="campo1" name="campo1" required  value="1" min="1" max="10">
+            </div>
+
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo6" class="form-label">Quantidade de números por jogo:</label>
+              <input type="number" class="form-control" id="campo6" name="campo6" required  value="6" min="6" max="20">
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo2" class="form-label">Quantidade de números mais sorteados: <i class="bi bi-info-circle"
+                  alt="Define qual índice (posição no ranking) máximo, o gerador deve incluir, entre os números mais sorteados"></i>
+              </label>
+              <input type="number" class="form-control" id="campo2" name="campo2" required value="2" min="0" max="6">
+            </div>
+
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo3" class="form-label">Índice máximo de números mais sorteados: <i class="bi bi-info-circle"
+                  alt="Define qual índice (posição no ranking) máximo, o gerador deve incluir, entre os números mais sorteados"></i>
+              </label>
+              <input type="number" class="form-control" id="campo3" name="campo3" required value="15" min="1" max="60">
+            </div>
+          </div>
+
+          <div class="row justify-content-center">
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo4" class="form-label">Quantidade de números medianos mais sorteados: <i class="bi bi-info-circle"
+                  alt="Define quantas vezes o gerador deve incluir apenas números, entre os números Medianos mais sorteados. Medianos estão entre os mais sorteados e menos sorteados."></i>
+              </label>
+              <input type="number" class="form-control" id="campo4" name="campo4" required value="2" min="0" max="6">
+            </div>
+
+            <div class="col-12 col-sm-4 mb-3">
+              <label for="campo5" class="form-label">Índice máximo de números medianos mais sorteados: <i class="bi bi-info-circle"
+                  alt="Define qual índice (posição no ranking) máximo, o gerador deve incluir, entre os números Medianos mais sorteados. Medianos estão entre os mais sorteados e menos sorteados."></i>
+              </label>
+              <input type="number" class="form-control" id="campo5" name="campo5" required value="40" min="1" max="60">
+            </div>
+          </div>
+
+          <button class="btn btn-primary mt-3" onclick="criarJogos()">Criar sorteio</button>
+
+          <div class="mt-4 mb-5">
+            <h2>Resultados</h2>
+
+            <ul class="list-group resultados">
+              <li class="list-group-item col-12 col-sm-6"><span class="float-start">Jogo 1:</span> - - - - - - </li>
+            </ul>
+          </div>
+
+          <div class="mt-5 mb-5">
+              <h3>Números mais sorteados até 09/12/2023</h3>
+
+              <ul class="list-group list-group-numbered">
+                <li class="list-group-item col-12 col-sm-6"><b>10 </b> &emsp; saiu <b>311</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>53 </b> &emsp; saiu <b>306</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>05 </b> &emsp; saiu <b>297</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>37 </b> &emsp; saiu <b>289</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>23 </b> &emsp; saiu <b>287</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>34 </b> &emsp; saiu <b>286</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>33 </b> &emsp; saiu <b>285</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>32 </b> &emsp; saiu <b>284</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>30 </b> &emsp; saiu <b>284</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>41 </b> &emsp; saiu <b>283</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>35 </b> &emsp; saiu <b>283</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>44 </b> &emsp; saiu <b>282</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>38 </b> &emsp; saiu <b>282</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>42 </b> &emsp; saiu <b>282</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>04 </b> &emsp; saiu <b>281</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>17 </b> &emsp; saiu <b>280</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>28 </b> &emsp; saiu <b>279</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>56 </b> &emsp; saiu <b>278</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>43 </b> &emsp; saiu <b>277</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>27 </b> &emsp; saiu <b>277</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>29 </b> &emsp; saiu <b>276</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>11 </b> &emsp; saiu <b>276</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>54 </b> &emsp; saiu <b>275</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>49 </b> &emsp; saiu <b>275</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>36 </b> &emsp; saiu <b>275</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>16 </b> &emsp; saiu <b>274</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>13 </b> &emsp; saiu <b>273</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>51 </b> &emsp; saiu <b>272</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>08 </b> &emsp; saiu <b>269</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>02 </b> &emsp; saiu <b>268</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>06 </b> &emsp; saiu <b>267</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>24 </b> &emsp; saiu <b>267</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>46 </b> &emsp; saiu <b>266</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>52 </b> &emsp; saiu <b>266</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>58 </b> &emsp; saiu <b>261</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>59 </b> &emsp; saiu <b>259</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>50 </b> &emsp; saiu <b>259</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>25 </b> &emsp; saiu <b>259</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>14 </b> &emsp; saiu <b>259</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>45 </b> &emsp; saiu <b>258</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>18 </b> &emsp; saiu <b>258</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>20 </b> &emsp; saiu <b>258</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>39 </b> &emsp; saiu <b>257</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>12 </b> &emsp; saiu <b>256</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>60 </b> &emsp; saiu <b>255</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>01 </b> &emsp; saiu <b>254</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>57 </b> &emsp; saiu <b>252</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>09 </b> &emsp; saiu <b>251</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>47 </b> &emsp; saiu <b>251</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>19 </b> &emsp; saiu <b>250</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>40 </b> &emsp; saiu <b>249</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>07 </b> &emsp; saiu <b>249</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>31 </b> &emsp; saiu <b>249</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>03 </b> &emsp; saiu <b>248</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>48 </b> &emsp; saiu <b>246</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>22 </b> &emsp; saiu <b>242</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>15 </b> &emsp; saiu <b>230</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>55 </b> &emsp; saiu <b>226</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>26 </b> &emsp; saiu <b>224</b> vezes</li>
+                <li class="list-group-item col-12 col-sm-6"><b>21 </b> &emsp; saiu <b>224</b> vezes</li>
+
+              </ul>
+          </div>
+
+        </div>
+
+        <div class="tab-pane" id="tabs-2" role="tabpanel" aria-labelledby="li-tab-2">
+
+          <div class="mt-4 mb-5">
+            <h2>Testar Sorteio no Gerador</h2>
+
+          <div class="row justify-content-center mt-5">
+            <p class="col-12 col-sm-8 mb-3 bg-light rounded-3 p-4" style="text-align: justify;">Nesta aba, você pode testar o gerador de números para a Mega Sena. Insira os números sorteados e clique em "Testar Gerador" para verificar se o gerador consegue reproduzir os resultados.</p>
+          </div>
+
+            <div class="row justify-content-center mt-5">
+              <div class="col-12 col-sm-4 mb-3">
+                <label for="campo8" class="form-label">Número da Mega Sena Sorteado (separados por espaço):</label>
+                <input type="text" class="form-control" id="campo8" name="campo8" required maxlength="17">
+              </div>
+            </div>
+
+            <button class="btn btn-primary mt-3 mb-3" onclick="btnTestarJogos(this)" id="TestarResultado">Testar Gerador</button>
+
+            <div id="resultados" class="mt-4 d-none">
+
+                <div class="progress my-5" role="progressbar" aria-label="Example with label" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar" style="width: 0%"></div>
+                  <div class="progress-bar-text">0%</div>
+                </div>
+
+                <h5>Testando a geração de 0 jogos</h5>
+
+                <ul class="list-group teste-resultados">
+                  <li class="list-group-item col-12 col-sm-6">-</li>
+                </ul>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Inclua os scripts do Bootstrap (jQuery e Popper.js são necessários para alguns componentes do Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+
+  </body>
+
+</html>
